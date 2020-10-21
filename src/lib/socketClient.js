@@ -18,10 +18,10 @@ class SocketClient {
     };
 
     this._ws.on('pong', () => {
-      logger.info('receieved pong from server');
+      //logger.info('receieved pong from server');
     });
     this._ws.on('ping', () => {
-      logger.info('==========receieved ping from server');
+      //logger.info('==========receieved ping from server');
       this._ws.pong();
     });
 
@@ -38,6 +38,7 @@ class SocketClient {
         const message = JSON.parse(msg.data);
         if (message.e) {
           if (this._handlers.has(message.e)) {
+            telegram(JSON.stringify(message));
             this._handlers.get(message.e).forEach((cb) => {
               cb(message);
             });
@@ -59,7 +60,7 @@ class SocketClient {
     setInterval(() => {
       if (this._ws.readyState === WebSocket.OPEN) {
         this._ws.ping();
-        logger.info("ping server");
+        //logger.info("ping server");
       }
     }, 5000);
   }
